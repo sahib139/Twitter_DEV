@@ -5,26 +5,14 @@ const tweetSchema = new mongoose.Schema({
         type:String,
         required: true,
     },
-    userEmail:{
-        type:String,
-    },
-    comments:[
+    hashtags:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"Comment",
-        } 
-    ],
+            ref:"Hashtag",
+        }
+    ]
 },{timestamps:true});
 
-tweetSchema.virtual('userName').get(function process(){
-    const username = this.userEmail.split("@")[0];
-    return username;
-});
-
-tweetSchema.virtual("email").set(function process(email){
-    this.userEmail = email;
-    return ;
-});
 
 const Tweet = new mongoose.model('Tweet' , tweetSchema);
 
