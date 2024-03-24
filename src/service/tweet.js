@@ -12,19 +12,16 @@ class TweetService {
     async create(data) {
         try {
             // (/#[a-zA-Z0-9_]+/g) --> regex for hashtag 
-            const content = data.content;
-            let tags = content.match(/#[a-zA-Z0-9_]+/g);
-            tags = tags.map((tag) => {
-                return tag.substring(1);
-            });
-            tags = await this.hashtagService.createBulk(tags);
-
             const tweet = await this.tweetRepository.create(data);
-            tags.map((tag) => {
-                tweet.hashtags.push(tag);
+
+            // after this is business processing all task can be done asynchronously.
+            const content = data.content;
+            let tags = content.match(/#[a-zA-Z0-9_]+/g).map((tag) => {
+                return tag.substring(1).toLowerCase();
             });
-            await tweet.save();
             
+            this.hashtagService.createBulk(tags,tweet.id);
+
             return tweet;
         } catch (error) {
             console.log(error);

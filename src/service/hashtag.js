@@ -6,18 +6,25 @@ class HashtagService {
         this.hashtagRepository = new HashtagRepository();
     }
 
-    async createBulk(tags) {
+    async createBulk(tags,tweetId) {
         try {
-            const response1 = await this.hashtagRepository.filterMany(tags);
-            let preExistTags = response1.map((tag) => { return tag.title });
-            tags = tags.filter((tag) => {
-                return !preExistTags.includes(tag);
+            let preExistTags = await this.hashtagRepository.filterMany(tags);
+            console.log(tags,tweetId);
+            preExistTags.map((tag)=>{
+                tag.tweets.push(tweetId);
+                tag.save();
             });
 
-            let response = await this.hashtagRepository.addBulk(tags);
+            preExistTags = preExistTags.map((tag) => { return tag.title });
+            let new_tags = tags.filter((tag) => {
+                return !preExistTags.includes(tag);
+            });
+            new_tags = new_tags.map((tag)=>{
+                return {title:tag,tweets:[tweetId]};
+            })
+            console.log(new_tags);
 
-            response = response.map((hashtag) => { return hashtag.id });
-            response1.map((hashtag) => { response.push(hashtag.id) });
+            let response = await this.hashtagRepository.addBulk(new_tags);
             
             return response;
         } catch (error) {

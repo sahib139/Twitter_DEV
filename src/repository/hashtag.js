@@ -15,10 +15,6 @@ class HashtagRepository {
 
     async addBulk(tags) {
         try {
-            tags = tags.map((tag) => {
-                let obj = { title: tag };
-                return obj;
-            })
             const hashtags = await Hashtag.insertMany(tags);
             return hashtags;
         } catch (error) {
