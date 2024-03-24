@@ -1,4 +1,4 @@
-const { HashtagRepository } = require("../repository/index");
+import { HashtagRepository } from "../repository/index.js";
 
 class HashtagService {
 
@@ -22,8 +22,7 @@ class HashtagService {
             new_tags = new_tags.map((tag)=>{
                 return {title:tag,tweets:[tweetId]};
             })
-            console.log(new_tags);
-
+            
             let response = await this.hashtagRepository.addBulk(new_tags);
             
             return response;
@@ -34,4 +33,4 @@ class HashtagService {
 
 }
 
-module.exports = HashtagService;
+export default HashtagService;

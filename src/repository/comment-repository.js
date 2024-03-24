@@ -1,4 +1,4 @@
-const Comment = require("../models/comments");
+import { Comment } from "../models/index.js";
 
 class CommentRepository{
 
@@ -31,4 +31,4 @@ class CommentRepository{
 
 }
 
-module.exports = CommentRepository;
+export default CommentRepository;

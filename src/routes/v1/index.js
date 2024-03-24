@@ -1,7 +1,9 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const tweetRoutes = require("./tweet");
+import {tweetRoutes} from "./tweet.js";
 
 router.use(tweetRoutes);
 
-module.exports = router;
+export{
+    router as v1ApiRoutes,
+}
