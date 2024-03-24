@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const HashtagSchema = mongoose.Schema({
+const HashtagSchema = new mongoose.Schema({
     title:{
         type:String,
         require:true,

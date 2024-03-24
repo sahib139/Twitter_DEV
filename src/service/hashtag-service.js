@@ -9,10 +9,9 @@ class HashtagService {
     async createBulk(tags,tweetId) {
         try {
             let preExistTags = await this.hashtagRepository.filterMany(tags);
-            console.log(tags,tweetId);
-            preExistTags.map((tag)=>{
+            preExistTags.map(async (tag)=>{
                 tag.tweets.push(tweetId);
-                tag.save();
+                await tag.save();
             });
 
             preExistTags = preExistTags.map((tag) => { return tag.title });
@@ -22,7 +21,7 @@ class HashtagService {
             new_tags = new_tags.map((tag)=>{
                 return {title:tag,tweets:[tweetId]};
             })
-            
+
             let response = await this.hashtagRepository.addBulk(new_tags);
             
             return response;

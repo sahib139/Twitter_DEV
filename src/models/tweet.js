@@ -5,9 +5,15 @@ const tweetSchema = new mongoose.Schema({
         type:String,
         required: true,
     },
+    likes:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Like",
+        }
+    ]
 },{timestamps:true});
 
 
-const Tweet = new mongoose.model('Tweet' , tweetSchema);
+const Tweet = mongoose.model('Tweet' , tweetSchema);
 
 export default Tweet;
