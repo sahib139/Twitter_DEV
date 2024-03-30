@@ -9,7 +9,7 @@ class UserService{
     async signUp(data){
         try {
             const user = await this.userRepository.create(data);
-            return true;
+            return user;
         } catch (error) {
             console.log(error);
             throw error;
